@@ -142,8 +142,10 @@ class LoadMenu(QMainWindow):
                 if widget is not None:
                     widget.setParent(None)
                     widget.deleteLater()
+        self.close()
 
-        self.initUI(self.geometry())
+        self = LoadMenu(self.geometry())
+        self.show()
 
 
 
