@@ -1,0 +1,21 @@
+Steps of development
+
+1. Figure out the GUI
+    A. Figure out how to display flash cards - show a term and when you click show a definition
+    B. Transition from one flashcard to another flashcard when you hit the next arrow and visa versa
+        with the back arrow
+    C. Make a learn mode
+        I. Start with multiple choice options for one term where the answers come from random flashcards in the set
+        II. Make something where you can write the answer and check it by hitting enter
+
+NOTE: Maybe add a matching feature in the future
+
+2. Figure out a backend
+    A. Let the user make their own flash card sets bu inputting a term and a definition
+    B. Let the user save that set for later use (prob write to a csv)
+    C. Let the user access old sets that they have saved before (prob read from a csv)
+
+
+TO DO:
+    add a choice to show term or definition first
+    chat gpt integration - not possible
