@@ -26,7 +26,7 @@ class FocusPlainTextEdit(QPlainTextEdit):
 class Editor(QMainWindow):
     def __init__(self, geometry = None, study_set: StudySet = StudySet("", [])):
         self.rows = 10
-        if len(study_set.flashcards) > 0:
+        if len(study_set.flashcards) >= 1:
             self.rows = len(study_set.flashcards)
 
         super().__init__()
@@ -85,17 +85,17 @@ class Editor(QMainWindow):
         self.layout = QGridLayout(scroll_widget)
 
         #Add spot for Title
-        title = FocusPlainTextEdit()
-        title.setMinimumHeight(70)
-        title.setFont(QFont('Times', 20))
+        self.title = FocusPlainTextEdit()
+        self.title.setMinimumHeight(70)
+        self.title.setFont(QFont('Times', 20))
 
         if self.title != "":
-            title.setPlainText(self.title)
+            self.title.setPlainText(self.title)
         else:
-            title.setPlaceholderText("Title")
+            self.title.setPlaceholderText("Title")
 
-        title.setStyleSheet("color: white; background-color: rgb(73, 91, 85); border-radius: 10px;")
-        self.layout.addWidget(title, 0, 0, 1, 2)
+        self.title.setStyleSheet("color: white; background-color: rgb(73, 91, 85); border-radius: 10px;")
+        self.layout.addWidget(self.title, 0, 0, 1, 2)
 
         # Add spot for description
         desc = FocusPlainTextEdit()
