@@ -85,17 +85,17 @@ class Editor(QMainWindow):
         self.layout = QGridLayout(scroll_widget)
 
         #Add spot for Title
-        self.title = FocusPlainTextEdit()
-        self.title.setMinimumHeight(70)
-        self.title.setFont(QFont('Times', 20))
+        title = FocusPlainTextEdit()
+        title.setMinimumHeight(70)
+        title.setFont(QFont('Times', 20))
 
         if self.title != "":
-            self.title.setPlainText(self.title)
+            title.setPlainText(self.title)
         else:
-            self.title.setPlaceholderText("Title")
+            title.setPlaceholderText("Title")
 
-        self.title.setStyleSheet("color: white; background-color: rgb(73, 91, 85); border-radius: 10px;")
-        self.layout.addWidget(self.title, 0, 0, 1, 2)
+        title.setStyleSheet("color: white; background-color: rgb(73, 91, 85); border-radius: 10px;")
+        self.layout.addWidget(title, 0, 0, 1, 2)
 
         # Add spot for description
         desc = FocusPlainTextEdit()
