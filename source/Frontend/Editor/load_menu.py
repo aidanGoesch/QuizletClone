@@ -135,9 +135,18 @@ class LoadMenu(QMainWindow):
         dialogue.show()
 
     def refresh_window(self):
-        self.close()
-        self = LoadMenu(self.geometry())
-        self.show()
+        # self.close()
+        # self = LoadMenu(self.geometry())
+        # self.show()
+        for i in reversed(range(self.layout.count())):
+            widget_item = self.layout.itemAt(i)
+            if widget_item is not None:
+                widget = widget_item.widget()
+                if widget is not None:
+                    widget.setParent(None)
+                    widget.deleteLater()
+
+        self.initUI(self.geometry())
 
 
 

@@ -74,15 +74,20 @@ class Writer:
 
 
 def delete_set(file_name: str):
-    file_path = pathlib.Path(f"source/Backend/Sets/{file_name}.csv")
+    try:
+        file_path = pathlib.Path(f"source/Backend/Sets/{file_name}.csv")
 
-    if not file_path.exists():  # changes filepath to work from repo
-        file_path = pathlib.Path(f"./Backend/Sets/{file_name}.csv")
+        if not file_path.exists():  # changes filepath to work from repo
+            file_path = pathlib.Path(f"./Backend/Sets/{file_name}.csv")
 
-    if file_path.exists():
-        file_path.unlink()
-        return True
-    else:
+        if file_path.exists():
+            file_path.unlink()
+            return True
+        else:
+            return False
+    except Exception as e:
+        # Log the error or handle it in an appropriate way, e.g., show an error message to the user.
+        log(f"Error deleting set {file_name}: {str(e)}")
         return False
 
 
