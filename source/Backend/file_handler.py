@@ -8,7 +8,7 @@ from source.Backend.Log.logging import log
 
 class Loader:
     def __init__(self):
-        self.file_path = pathlib.Path("./Backend/Sets")
+        self.file_path = pathlib.Path("source/Backend/Sets")
 
     def get_set_names(self):
         names = []
@@ -31,7 +31,7 @@ class Loader:
 
 class Writer:
     def __init__(self, study_set: StudySet):
-        self.file_path = pathlib.Path("./Backend/Sets")
+        self.file_path = pathlib.Path("source/Backend/Sets")
         self.study_set = study_set
 
     def get_set_names(self):
