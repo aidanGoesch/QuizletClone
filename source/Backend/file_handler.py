@@ -10,6 +10,9 @@ class Loader:
     def __init__(self):
         self.file_path = pathlib.Path("source/Backend/Sets")
 
+        if not self.file_path.exists(): # changes filepath to work from repo
+            self.file_path = pathlib.Path("./Backend/Sets")
+
     def get_set_names(self):
         names = []
         for file in self.file_path.iterdir():
@@ -32,6 +35,10 @@ class Loader:
 class Writer:
     def __init__(self, study_set: StudySet):
         self.file_path = pathlib.Path("source/Backend/Sets")
+
+        if not self.file_path.exists(): # changes filepath to work from repo
+            self.file_path = pathlib.Path("./Backend/Sets")
+
         self.study_set = study_set
 
     def get_set_names(self):
@@ -67,7 +74,11 @@ class Writer:
 
 
 def delete_set(file_name: str):
-    file_path = pathlib.Path(f"./Backend/Sets/{file_name}.csv")
+    file_path = pathlib.Path(f"source/Backend/Sets/{file_name}.csv")
+
+    if not file_path.exists():  # changes filepath to work from repo
+        file_path = pathlib.Path(f"./Backend/Sets/{file_name}.csv")
+
     if file_path.exists():
         file_path.unlink()
         return True

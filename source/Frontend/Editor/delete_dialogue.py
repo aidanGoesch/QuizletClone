@@ -2,6 +2,7 @@ import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QScrollArea, QPushButton, QGridLayout, QLabel
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt, pyqtSignal
+from source.Backend.Log.logging import log
 
 class DeleteDialogue(QMainWindow):
     deleted = pyqtSignal()
@@ -64,7 +65,7 @@ class DeleteDialogue(QMainWindow):
             log(f'something went wrong, {self.file_name} could not be deleted')
         else:
             self.deleted.emit()
-            # print('deleted')
+            log('Set deleted successfully')
 
         self.close()
 
