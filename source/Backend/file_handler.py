@@ -100,7 +100,10 @@ def convert_data_to_study_set(data: list[list]) -> StudySet:
     temp.description = data[1][0]
 
     for i in range(2, len(data)):
-        temp.flashcards.append(FlashCard(term = data[i][0], definition = data[i][1]))
+        try:
+            temp.flashcards.append(FlashCard(term = data[i][0], definition = data[i][1]))
+        except IndexError:
+            log(f"ERROR: Missing term value")
 
     return temp
 
