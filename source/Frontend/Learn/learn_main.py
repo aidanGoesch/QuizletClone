@@ -20,6 +20,8 @@ class LearnGUI(QMainWindow):
         self.flash_cards = partition_flashcards(study_set.flashcards)
         self.current_block = 0
 
+        self.completed_switch = False
+
         self.initUI(geometry)
 
 
@@ -72,7 +74,9 @@ class LearnGUI(QMainWindow):
 
     def advance_study_block(self):
         if self.current_block == len(self.flash_cards) - 1:
-            self.finish_learn()
+            if not self.completed_switch:
+                self.completed_switch = True
+                self.finish_learn()
         else:
             self.current_block += 1
             self.questions = MultipleChoice(self.flash_cards[self.current_block], current_card=0)

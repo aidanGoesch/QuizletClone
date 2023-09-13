@@ -170,7 +170,7 @@ class MultipleChoice(QWidget):
         self.removeEventFilter(self)
         self.term.setText(self.flashcards[self.current_card].term)
 
-        temp = get_rand_cards(self.flashcards, self.flashcards[self.current_card], min(3, len(self.flashcards))) \
+        temp = get_rand_cards(self.flashcards, self.flashcards[self.current_card], min(3, len(self.flashcards) - 1)) \
                 + [self.flashcards[self.current_card]]
         random.shuffle(temp)
         for i, option in enumerate(self.options):
