@@ -1,8 +1,4 @@
 ### EVENT LOG ###
-unable to study this term due to missing value
-unable to study this term due to missing value
-Study Set test Saved!
-being editted: test
-unable to study this term due to missing value
-unable to study this term due to missing value
-being editted: test-1
+being editted: a-1
+Set deleted successfully
+being editted: a-2

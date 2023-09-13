@@ -3,6 +3,7 @@ import sys
 import random
 from source.Backend.flashcard import FlashCard
 from source.Backend.study_set import StudySet
+from source.Backend.Log.logging import log
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QGridLayout
 from PyQt6.QtCore import Qt, QEvent, pyqtSignal
 from PyQt6.QtGui import QFont
@@ -19,6 +20,7 @@ class Option(QPushButton):
 
 class MultipleChoice(QWidget):
     completed = pyqtSignal()
+    problem = pyqtSignal()
 
     def __init__(self, flashcards: list[FlashCard], current_card: int = 0):
         super().__init__()
@@ -92,9 +94,12 @@ class MultipleChoice(QWidget):
         if len(self.flashcards) >= 4:
             temp = get_rand_cards(self.flashcards, self.flashcards[self.current_card], 3) \
                    + [self.flashcards[self.current_card]]
-        elif len(self.flashcards) <= 1:
-            log("This set is not able to be studied")
-            quit()
+        elif len(self.flashcards) == 1:
+            log("This set is only has 1 card")
+            return self.flashcards
+        elif len(self.flashcards) == 0:
+            log("ERROR: there are no terms to study in this set")
+
         else:
             temp = get_rand_cards(self.flashcards, self.flashcards[self.current_card], len(self.flashcards) - 1) \
                    + [self.flashcards[self.current_card]]

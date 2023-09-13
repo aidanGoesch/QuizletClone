@@ -20,7 +20,6 @@ class FocusPlainTextEdit(QPlainTextEdit):
             super().keyPressEvent(event)
 
 
-
 # Add an option to delete certain flash cards
 
 class Editor(QMainWindow):
@@ -76,43 +75,75 @@ class Editor(QMainWindow):
         study_menu.addAction(flashcard_action)
         study_menu.addAction(learn_action)
 
+        scroll_bar_style = """
+                    QScrollBar:vertical {
+                        background: rgb(28, 44, 37);
+                        width: 15px;
+                    }
+
+                    QScrollBar::handle:vertical {
+                        background: rgb(73, 91, 85);
+                        min-height: 20px;
+                        border-radius: 10px;
+                    }
+
+                    QScrollBar::add-page:vertical,
+                    QScrollBar::sub-page:vertical {
+                        background: rgb(28, 44, 37);
+                    }
+
+                    QScrollBar::add-line:vertical,
+                    QScrollBar::sub-line:vertical {
+                        background: none;
+                    }
+                """
+
 
         # Create a scrollable widget and set it as the central widget of the main window
-        scroll_widget = QWidget()
-        self.setCentralWidget(scroll_widget)
 
-        # Create a layout for the scrollable widget
+
+        scroll_widget = QWidget()
         self.layout = QGridLayout(scroll_widget)
 
+        # self.setCentralWidget(scroll_widget)
+
+        self.scroll_area = QScrollArea()
+        self.scroll_area.setWidget(scroll_widget)
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setStyleSheet(scroll_bar_style)
+
+        # Create a layout for the scrollable widget
+
         #Add spot for Title
-        title = FocusPlainTextEdit()
-        title.setMinimumHeight(70)
-        title.setFont(QFont('Times', 20))
+        self.title_box = FocusPlainTextEdit()
+        self.title_box.setMinimumHeight(70)
+        self.title_box.setFont(QFont('Times', 20))
 
         if self.title != "":
-            title.setPlainText(self.title)
+            self.title_box.setPlainText(self.title)
         else:
-            title.setPlaceholderText("Title")
+            self.title_box.setPlaceholderText("Title")
 
-        title.setStyleSheet("color: white; background-color: rgb(73, 91, 85); border-radius: 10px;")
-        self.layout.addWidget(title, 0, 0, 1, 2)
+        self.title_box.setStyleSheet("color: white; background-color: rgb(73, 91, 85); border-radius: 10px;")
+        self.layout.addWidget(self.title_box, 0, 0, 1, 2)
 
         # Add spot for description
-        desc = FocusPlainTextEdit()
-        desc.setMinimumHeight(90)
-        desc.setFont(QFont('Times', 17))
-        desc.setStyleSheet("color: white; background-color: rgb(73, 91, 85); border-radius: 10px;")
+        self.desc = FocusPlainTextEdit()
+        self.desc.setMinimumHeight(90)
+        self.desc.setFont(QFont('Times', 17))
+        self.desc.setStyleSheet("color: white; background-color: rgb(73, 91, 85); border-radius: 10px;")
 
         if self.description != "":
-            desc.setPlainText(self.description)
+            self.desc.setPlainText(self.description)
         else:
-            desc.setPlaceholderText("Description")
+            self.desc.setPlaceholderText("Description")
 
-        self.layout.addWidget(desc, 1, 0, 1, 2)
+        self.layout.addWidget(self.desc, 1, 0, 1, 2)
 
         # Create text boxes
         is_loaded = len(self.flashcards) != 0
         columns = 2
+        self.text_boxes = []
         for row in range(3, self.rows + 3):
             for col in range(columns):
                 index = row * columns + col
@@ -120,6 +151,7 @@ class Editor(QMainWindow):
                 text_box.setMinimumHeight(60)
                 text_box.setStyleSheet("color: white; background-color: rgb(73, 91, 85); border-radius: 10px;")
                 # text_box.setFont(QFont('Times', 12))
+                text_box.destroyed.connect(lambda x : print('gone'))
 
                 if not is_loaded:
                     if col == 0:
@@ -132,6 +164,7 @@ class Editor(QMainWindow):
                     else:
                         text_box.setPlainText(self.flashcards[row - 3].definition)
 
+                self.text_boxes.append(text_box)
                 self.layout.addWidget(text_box, row, col)
 
 
@@ -146,6 +179,7 @@ class Editor(QMainWindow):
                 else:
                     text_box.setPlaceholderText("Definition")
 
+                self.text_boxes.append(text_box)
                 self.layout.addWidget(text_box, self.rows + 3, col)
 
             self.rows += 1
@@ -161,35 +195,6 @@ class Editor(QMainWindow):
         self.layout.addWidget(add_row_button, self.rows + 3, 0, 1, 2)
 
         # Create a scroll area and set the scrollable widget as its content
-        scroll_bar_style = """
-            QScrollBar:vertical {
-                background: rgb(28, 44, 37);
-                width: 15px;
-            }
-        
-            QScrollBar::handle:vertical {
-                background: rgb(73, 91, 85);
-                min-height: 20px;
-                border-radius: 10px;
-            }
-        
-            QScrollBar::add-page:vertical,
-            QScrollBar::sub-page:vertical {
-                background: rgb(28, 44, 37);
-            }
-        
-            QScrollBar::add-line:vertical,
-            QScrollBar::sub-line:vertical {
-                background: none;
-            }
-        """
-
-        scroll_area = QScrollArea()
-        scroll_area.setWidgetResizable(True)
-        scroll_area.setWidget(scroll_widget)
-        scroll_area.setStyleSheet(scroll_bar_style)
-
-        self.setCentralWidget(scroll_area)
 
         self.setStyleSheet("background-color: rgb(28, 44, 37);")
 
@@ -200,6 +205,9 @@ class Editor(QMainWindow):
             self.setGeometry(200, 200, 700, 500)
         else:
             self.setGeometry(geometry)
+
+        self.scroll_area.setLayout(self.layout)
+        self.setCentralWidget(self.scroll_area)
 
         self.show()
 
@@ -266,14 +274,19 @@ class Editor(QMainWindow):
             flashcard_gui = FlashCardGUI(self.geometry(), study_set)
             flashcard_gui.show()
             self.close()
+        else:
+            print('not able to study this set')
 
     def open_learn(self):
         from source.Frontend.Learn.learn_main import LearnGUI
         self.write_data()
         study_set = self.extract_data()
-        learn_gui = LearnGUI(self.geometry(), study_set)
-        learn_gui.show()
-        self.close()
+        if len(study_set.flashcards) > 0:
+            learn_gui = LearnGUI(self.geometry(), study_set)
+            learn_gui.show()
+            self.close()
+        else:
+            print('not able to study this set')
 
 
 
