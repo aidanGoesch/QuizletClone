@@ -58,6 +58,7 @@ class Writer:
             else:
                 log('override limit exceeded')
             file_path = f'{self.file_path}/{self.study_set.title}-{i}.csv'
+            self.study_set.title = f'{self.study_set.title}-{i}'
 
         data = convert_study_set_to_data(self.study_set)
         with open(file_path, 'w', newline='') as file:

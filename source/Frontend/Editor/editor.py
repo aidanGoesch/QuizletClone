@@ -151,7 +151,7 @@ class Editor(QMainWindow):
                 text_box.setMinimumHeight(60)
                 text_box.setStyleSheet("color: white; background-color: rgb(73, 91, 85); border-radius: 10px;")
                 # text_box.setFont(QFont('Times', 12))
-                text_box.destroyed.connect(lambda x : print('gone'))
+                text_box.destroyed.connect(lambda x : log('text box deleted'))
 
                 if not is_loaded:
                     if col == 0:
@@ -206,7 +206,7 @@ class Editor(QMainWindow):
         else:
             self.setGeometry(geometry)
 
-        self.scroll_area.setLayout(self.layout)
+        # self.scroll_area.setLayout(self.layout)
         self.setCentralWidget(self.scroll_area)
 
         self.show()
