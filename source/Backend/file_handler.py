@@ -40,6 +40,8 @@ class Writer:
             self.file_path = pathlib.Path("./Backend/Sets")
 
         self.study_set = study_set
+        if self.study_set.title == '':
+            self.study_set.title = "Untitled"
 
     def get_set_names(self):
         names = []

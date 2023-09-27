@@ -16,7 +16,7 @@ class LoadMenu(QMainWindow):
         self.initUI(geometry)
 
     def initUI(self, geometry):  # 4 rows name is first 2 then study and edit
-        self.setWindowTitle("Fake Quizlet")
+        self.setWindowTitle("Quizlet Clone")
 
         # Create a scrollable widget and set it as the central widget of the main window
         scroll_widget = QWidget()
@@ -25,7 +25,7 @@ class LoadMenu(QMainWindow):
         # Create a layout for the scrollable widget
         self.layout = QGridLayout(scroll_widget)
 
-        title = QLabel("Fake Quizlet")
+        title = QLabel("Quizlet Clone")
         title.setMinimumHeight(200)
         title.setFont(QFont('Times', 50))
         title.setStyleSheet("color: white;")
